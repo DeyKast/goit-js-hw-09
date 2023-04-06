@@ -10,7 +10,6 @@ startButton.disabled = true;
 
 let currentDate = new Date();
 let timer = null;
-let timerId = null;
 
 const timerView = document.querySelector('.timer');
 const inputDate = document.querySelector('#datetime-picker');
