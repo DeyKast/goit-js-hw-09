@@ -16,30 +16,36 @@ function onFormSubmit(evt) {
   const step = Number(refs.step.value);
   const amount = Number(refs.amount.value);
 
-  for (let i = 1; i <= amount; i += 1) {
-    const delayStep = firstDelay + step * (i - 1);
-    createPromise(i, delayStep).then(onSuccess).catch(onError);
+  if (firstDelay < 0 || step < 0 || amount < 0) {
+    Notify.failure(`❌ Put positive numbers`);
+  } else if (amount < 1) {
+    Notify.failure(`❌ Put correct amount quantity`);
+  } else {
+    for (let i = 1; i <= amount; i += 1) {
+      const delayStep = firstDelay + step * (i - 1);
+      createPromise(i, delayStep).then(onSuccess).catch(onError);
+    }
   }
-}
 
-function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
+  function createPromise(position, delay) {
+    const shouldResolve = Math.random() > 0.3;
 
-  return new Promise((fulfill, reject) => {
-    setTimeout(() => {
-      if (shouldResolve) {
-        fulfill({ position, delay });
-      } else {
-        reject({ position, delay });
-      }
-    }, delay);
-  });
-}
+    return new Promise((fulfill, reject) => {
+      setTimeout(() => {
+        if (shouldResolve) {
+          fulfill({ position, delay });
+        } else {
+          reject({ position, delay });
+        }
+      }, delay);
+    });
+  }
 
-function onSuccess({ position, delay }) {
-  Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-}
+  function onSuccess({ position, delay }) {
+    Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  }
 
-function onError({ position, delay }) {
-  Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+  function onError({ position, delay }) {
+    Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+  }
 }
