@@ -10,8 +10,8 @@ startButton.disabled = true;
 
 let currentDate = new Date();
 let timer = null;
+let targetDate = new Date(Date.now());
 
-const timerView = document.querySelector('.timer');
 const inputDate = document.querySelector('#datetime-picker');
 const daysOut = document.querySelector('span[data-days]');
 const hoursOut = document.querySelector('span[data-hours]');
